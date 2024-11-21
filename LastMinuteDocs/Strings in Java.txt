@@ -1,0 +1,38 @@
+Strings:
+String are immutable in java..i.e they are constant.Any modifiction to the String leads new object cretions.
+
+two ways to create String objects using String literal and using new object.
+Creating String using String literal always creates two objects one in heap area another in String constnt pool.
+
+String Buffer is an alternative of String.It is mutable with growable length where as String is fixed length.
+String Builder also lternative of String but it is mutable.
+
+String Buffer vs String Builder.
+Both are mutble.String Buffer is synchronized i.e Thred safe where as String Builder is not.
+Thats why String Builder is most efficient than String Buffer.
+
+String has concat method and String Buffer and String Builder has append method.
+
+-->How to create immutable objects in java
+All wrapper classes and String are immutble in java.We can create immutable class by using final key word.
+To make any class immutable specify that class as final and all the variable in that class as final variable.
+
+--->String Constant Pool
+String constnt pool is a memory location in heap area.It stores String literals.Heap area always store run time objects.
+When new variable is creted and assign  value java checks if the same value exists in string pool..If exists it returns that memory location else crete new object reference.
+String pools saves lots of space for javaruntime.
+
+-->intern() method.
+intern method is used to return String from memory if is creted using new keyword.it's  canonicl representtion of string.
+It Creates exact copy of heap string Object in string pool.
+
+Is String a keyword in java?
+No. String is not a keyword in java. String is a final class in java.lang package which is used to represent the set of characters in java
+
+Which is the final class in these three classes – String, StringBuffer and StringBuilder?
+All three are final.
+
+do you have any idea why strings have been made immutable in java?
+a) Immutable strings increase security. As they can’t be modified once they are created, so we can use them to store sensitive data like username, password etc.
+b) Immutable strings are thread safe. So, we can use them in a multi threaded code without synchronization.
+c) String objects are used in class loading. If strings are mutable, it is possible that wrong class is being loaded as mutable objects are modifiable.

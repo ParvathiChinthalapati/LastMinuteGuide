@@ -1,0 +1,44 @@
+Exceptions in java
+Exception is an event which occurs during the execution of the progrm and causes abnorml termination of the program.
+Error is  serious problem occurs during the run time of the progrm which can't be handled and not recoverble 
+by any of the handling technics.
+EX.OutofMemoryError,StckOverFlowError.
+
+Error vs Exception
+
+
+Error						Exception
+type of java.lang.Error				type of java.lang.Exception
+Error are unchecked type			Exceptions are both checked and uncheked
+can't be handled				can be handled
+StackOverFlowError,OutofMemoryerror		checked -- IOExceptions,SQLExepetions
+						Un cheked -- NumberFormat,classCastException,NullPointer,
+						ArrayIndexOutofBounds,Arhemtic
+
+Checked Exceptions are exceptions occurs during compile time.
+Un cheked Exception are exceptions occurs during run time.
+ 
+User Defined Exception
+1.Need to write used defined class which extends Exception class
+2.write one default constructor and one parameterized constructor in user defined exception class.
+3.with in parameterized constructor add Sysout stmt for customized msg.
+4.In main program with in try block add stmt as
+throw new CustomExpetion("Custom msg");
+
+Throws vs Throw
+Throws is key word used in method signature whichs states that the declared method might throw any of listed exceptions.
+Throws is used for checked exceptions.The called method must handled the exception.
+Throw key word used with in a method to explicitly throw exceptions.Mostly used for Used defined exceptions.
+It can be used for both checked and uncheked exception.
+
+Difference Between ClassNotFoundException Vs NoClassDefFoundError In Java
+In Java, both ClassNotFoundException and NoClassDefFoundError occur when a particular class is not found at run time. 
+But, they occur at different scenarios. 
+ClassNotFoundException is an exception which occurs when you try to load a class at run time using Class.forName() or 
+loadClass() methods and mentioned classes are not found in the classpath. 
+On the other hand, NoClassDefFoundError is an error which occurs when a particular class is present at compile time 
+but it was missing at run time. 
+
+What design pattern is used to implement exception handling features in most languages?
+Chain Of Responsibility Pattern
+

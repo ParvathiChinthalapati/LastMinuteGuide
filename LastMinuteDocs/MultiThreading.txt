@@ -1,0 +1,109 @@
+MultiThreading in Java
+
+Multi threading is a process of executing more threads simultneously.
+
+Thread is light wright sub process.In multi threading threads shares same memory area and task switching between thread does n't take much time.
+
+Life cycle of thread
+
+In thread life cycle there are 4 states.New,Runnable,suspended,terminated
+when a thread is created it in new state.After applying start() methos it is runnble state.In runnable state if we apply sleep()/wait() it went to blocked state.
+in blocked state after applying resume(),notify(),notifyAll() it resumes to runnable state.after returing from run() method it gets terminated.
+
+Creating thread in two ways 
+-->extending thread class,implementing runnable interfce.
+In runnable interfce only we have run() 
+
+creating thread using thread class
+
+class Multi extends Thread{  
+public void run(){  
+System.out.println("thread is running...");  
+}  
+public static void main(String args[]){  
+Multi t1=new Multi();  
+t1.start();  
+ }  
+} 
+
+Creating Thread using runnable interfce
+class Multi3 implements Runnable{  
+public void run(){  
+System.out.println("thread is running...");  
+}  
+  
+public static void main(String args[]){  
+Multi3 m1=new Multi3();  
+Thread t1 =new Thread(m1);  
+t1.start();  
+ }  
+}  
+
+Difference between preemptive scheduling and time slicing
+Under preemptive scheduling, the highest priority task executes until it enters the waiting or dead states or a 
+higher priority task comes into existence. Under time slicing, a task executes for a predefined slice of time 
+and then reenters the pool of ready tasks. The scheduler then determines which task should execute next, based on priority
+ and other factors. 
+
+-->sleep() methos is used to sleep a thread to specified amount of time.
+
+Can we start a thread twice
+No. After starting a thread, it can never be started again. If you does so, an IllegalThreadStateException is thrown. 
+In such case, thread will run once but for second time, it will throw exception.
+
+What if we call run() method directly instead start() method?
+Each thread starts in a separate call stack.
+Invoking the run() method from main thread, the run() method goes onto the current call stack rather than at the beginning of a new call stack.
+
+The join() method
+The join() method waits for a thread to die. In other words, it causes the currently running threads to stop executing until the thread it joins with completes its task.
+
+yield()
+The java.lang.Thread.yield() method causes the currently executing thread object to temporarily pause and allow other threads to execute.
+
+Daemon Thread in Java
+Daemon thread in java is a service provider thread that provides services to the user thread. Its life depend on the mercy of user threads i.e. when all the user threads dies, JVM terminates this thread automatically.
+There are many java daemon threads running automatically e.g. gc, finalizer etc. 
+
+Difference between notify() and notifyAll() in Java
+notify() and notifyAll() methods with wait() method are used to for communication between the threads. A thread which goes into waiting state by calling wait() method will be in waiting state until any other thread calls either notify() or notifyAll() method on the same object.
+Now the question is both notify() and notifyAll() method is used to give notification to the waiting thread, then what is the difference between them or where we should use notify() method and where we should go for notifyAll() method?
+
+Notification to number of threads : We can use notify() method to give the notification for only one thread which is waiting for a particular object whereas by the help of notifyAll() methods we can give the notification to all waiting threads of a particular object.
+Notifying a thread by JVM : If multiple threads are waiting for the notification and we use notify() method then only one thread get the notification and the remaining thread have to wait for further notification. Which thread will get the notification we can’t expect because it totally depends upon the JVM. But when we use notifyAll() method then multiple threads got the notification but execution of threads will be performed one by one because thread requires lock and only one lock is available for one object.
+Interchangeability of threads : We should go for notify() if all your waiting threads are interchangeable (the order they wake up doesn’t matter). A common example is a thread pool. But we should use notifyAll() for other cases where the waiting threads may have different purposes and should be able to run concurrently. An example is a maintenance operation on a shared resource, where multiple threads are waiting for the operation to complete before accessing the resource.
+
+When to use notify() method and notifyAll()
+In case of mutually exclusive locking, only one of the waiting threads can do something useful after being notified (in this case acquire the lock). In such a case, you would rather use notify(). Properly implemented, you could use notifyAll() in this situation as well, but you would unnecessarily wake threads that can’t do anything anyway.
+In some cases, all waiting threads can take useful action once the wait finishes. An example would be a set of threads waiting for a certain task to finish; once the task has finished, all waiting threads can continue with their business. In such a case you would use notifyAll() to wake up all waiting threads at the same time.
+
+Race condition in Java occurs in a multi-threaded environment when more than one thread try to access a shared resource 
+(modify, write) at the same time. Since multiple threads try to race each other to finish executing a method thus the 
+name race condition.
+
+What is a Race Condition?
+You are planning to go to a movie at 5 pm. You inquire about the availability of the tickets at 4 pm. The representative says that they are available. You relax and reach the ticket window 5 minutes before the show. I'm sure you can guess what happens: it's a full house. The problem here was in the duration between the check and the action. You inquired at 4 and acted at 5. In the meantime, someone else grabbed the tickets. That's a race condition - specifically a "check-then-act" scenario of race conditions.
+How do you detect them?
+Religious code review, multi-threaded unit tests. There is no shortcut. There are few Eclipse plugin emerging on this, but nothing stable yet.
+How do you handle and prevent them?
+The best thing would be to create side-effect free and stateless functions, use immutables as much as possible. But that is not always possible. So using java.util.concurrent.atomic, concurrent data structures, proper synchronization, and actor based concurrency will help.
+
+Deadlock in Java
+Deadlock in java is a part of multithreading. Deadlock can occur in a situation when a thread is waiting for an 
+object lock, that is acquired by another thread and second thread is waiting for an object lock that is acquired by 
+first thread.
+
+Why is it said that Thread behavior is unpredictable?
+The reason for this is the thread scheduler which handles the execution of threads. The scheduler maybe having different performance on different platforms Windows, UNIX, LINUX, etc. While executing the same thread may give different outputs on different platforms and sometimes even on the same platform. To solve this, a user can create the same Runnable object, create run() loops in both threads and start both threads together. Ideally, the scheduler should pick both threads together and the performance should not be affected, but both threads will enter loops anonymously.
+
+What is the difference between synchronized and volatile keywords
+The difference between volatile and synchronized keyword is that synchronized can be used with variable and methods, while volatile cannot be used with methods. Volatile variables are not stored in cache memory, synchronized variables are stored in cache memory. A volatile variable will never land up in deadlock as it does not require to obtain any lock. While in synchronized variables if they are not done properly then it may end up in deadlock.
+
+Why methods like wait(), notify() and notify all() are present in object class and not in Thread class?
+Object class has monitors which allow the thread to lock an object, while Thread does not have any monitors. When any of above methods are called it waits for another thread to release the object and notifies the monitor by calling notify() or notify all(). When notify() method is called it does the job of notifying all threads which are waiting for the object to be released. The object class’s monitor checks for the object if it is available or not. Thread class having these methods would not help as multiple threads exist on an object and not vice versa.
+
+Explain the difference between sleep() and wait() methods.
+1)sleep() method is called on threads and not objects. Wait() method is called on objects.
+2)When wait() method is called then monitor moves the thread from running to waiting state. Once a thread is in wait() then it can move to runnable only when it has notify() or notifyall() for that object. The scheduler changes the state after this. While in sleep() method, the state is changed to wait and will return to runnable only after sleep time is over.
+3)Wait() method is a part of java.lang.Object class, while sleep() is a part of java.lang.Thread class.
+4)Wait() is always used with a synchronized block as it requires to lock an object while sleep() can be used from outside synchronized block.

@@ -1,0 +1,124 @@
+Design patterns are reusable solutions to common software design problems. They help you create code that is more maintainable, flexible, and scalable. Here are a few Java design patterns with real-time examples:
+
+Singleton Pattern:
+
+Intent: Ensure a class has only one instance and provide a global point to that instance.
+Example: A database connection pool manager. You want only one pool manager to handle all database connections in your application.
+java
+Copy code
+public class DatabaseConnectionPool {
+    private static DatabaseConnectionPool instance;
+    
+    private DatabaseConnectionPool() {
+        // Initialize the connection pool
+    }
+    
+    public static DatabaseConnectionPool getInstance() {
+        if (instance == null) {
+            instance = new DatabaseConnectionPool();
+        }
+        return instance;
+    }
+    
+    // Other methods to manage connections
+}
+Factory Method Pattern:
+
+Intent: Define an interface for creating an object, but let subclasses alter the type of objects that will be created.
+Example: A GUI library with different platforms (Windows, Linux, Mac) where each platform has its own button creation logic.
+java
+Copy code
+interface Button {
+    void render();
+}
+
+class WindowsButton implements Button {
+    public void render() {
+        // Render a Windows button
+    }
+}
+
+class LinuxButton implements Button {
+    public void render() {
+        // Render a Linux button
+    }
+}
+
+class ButtonFactory {
+    public Button createButton(String platform) {
+        if (platform.equals("Windows")) {
+            return new WindowsButton();
+        } else if (platform.equals("Linux")) {
+            return new LinuxButton();
+        }
+        return null;
+    }
+}
+Observer Pattern:
+
+Intent: Define a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically.
+Example: Event handling in a GUI application, where multiple components listen for events and respond when an event occurs.
+java
+Copy code
+import java.util.ArrayList;
+import java.util.List;
+
+interface Observer {
+    void update(String message);
+}
+
+class Subject {
+    private List<Observer> observers = new ArrayList<>();
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void notifyObservers(String message) {
+        for (Observer observer : observers) {
+            observer.update(message);
+        }
+    }
+}
+Strategy Pattern:
+
+Intent: Define a family of algorithms, encapsulate each one, and make them interchangeable. Strategy lets the algorithm vary independently from clients that use it.
+Example: Sorting algorithms where you can choose different sorting strategies (e.g., quicksort, bubblesort, mergesort) at runtime.
+java
+Copy code
+interface SortingStrategy {
+    void sort(int[] array);
+}
+
+class BubbleSort implements SortingStrategy {
+    public void sort(int[] array) {
+        // Implement bubblesort
+    }
+}
+
+class QuickSort implements SortingStrategy {
+    public void sort(int[] array) {
+        // Implement quicksort
+    }
+}
+
+class Sorter {
+    private SortingStrategy strategy;
+
+    public Sorter(SortingStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void setStrategy(SortingStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void performSort(int[] array) {
+        strategy.sort(array);
+    }
+}
+These are just a few examples of design patterns in Java. Design patterns can help you solve common design problems in a reusable and maintainable way. Real-world applications often use multiple design patterns in combination to achieve their goals.
+
+
+
+
